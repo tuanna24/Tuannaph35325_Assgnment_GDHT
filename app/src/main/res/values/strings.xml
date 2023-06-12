@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">LearnActivity</string>
+    <string name="title_one">Chào mừng bạn trở lại,</string>
+    <string name="title_two">Đăng ký tài khoản</string>
+    <string name="user_name">Nhập tên của bạn</string>
+    <string name="pass_one">Nhập mật khẩu của bạn</string>
+    <string name="pass_two">Nhập lại mật khẩu của bạn</string>
+    <string name="title_home">FPOLY SOFTWARE COMPANY</string>
+    <string name="text2_home">FACULTY OF INFORMATION TECHNOLOGY</string>
+    <string name="cdfpt">c a o d a n g . f p t . e d u . v n</string>
+    <string name="txt_manage">Quản lý nhân sự</string>
+    <string name="txt_software">fpt software company</string>
+</resources>
