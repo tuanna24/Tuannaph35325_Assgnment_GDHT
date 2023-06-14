@@ -26,18 +26,38 @@ public class LoginUser extends AppCompatActivity {
     ArrayList<AccountUser> listAccountLogin = new ArrayList<>();
     public static String KEY_ACCOUNT = "account.txt";
 
+    SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        pref = getSharedPreferences("data", MODE_PRIVATE);
+
         edtUserlogin = findViewById(R.id.edt_username);
         edtPassLogin = findViewById(R.id.edt_password);
+
+        String userNameOld = pref.getString(KEY_USER_NAME, "");
+        String passOld = pref.getString(KEY_PASSWORD, "");
+
+        edtUserlogin.setText(userNameOld);
+        edtPassLogin.setText(passOld);
+
+
         chkRemember = findViewById(R.id.chk_remember);
+
+        chkRemember.setChecked(pref.getBoolean("remember", false));
+
+
+
         String userName = getIntent().getStringExtra("user_name");
         String userpass = getIntent().getStringExtra("pass_word");
-        edtUserlogin.setText(userName);
-        edtPassLogin.setText(userpass);
+        if (userName != null && !userName.equals("")) {
+            edtUserlogin.setText(userName);
+            edtPassLogin.setText(userpass);
+        }
+
 
         Button btnDk = findViewById(R.id.btn_dangky);
         btnDk.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +81,20 @@ public class LoginUser extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Vui lòng nhận password của bạn !", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    readAccount();
+                    //readAccount();
+
+                    String userName  = edtUserlogin.getText().toString();
+                    String password = edtPassLogin.getText().toString();
+
+                    if (chkRemember.isChecked()) {
+
+                        SharedPreferences.Editor editor = pref.edit();
+
+                        editor.putString(KEY_USER_NAME, userName);
+                        editor.putString(KEY_PASSWORD, password);
+
+                        editor.apply();
+                    }
                 }
             }
         });
@@ -79,10 +112,15 @@ public class LoginUser extends AppCompatActivity {
                 AccountUser user = new AccountUser(chkUserName, chkPassWord);
                 listAccountLogin.add(user);
                 writeAccountUser();
+
+                pref.edit().putBoolean("remember", chkRemember.isChecked()).apply();
             }
         });
     }
 
+
+    final String KEY_USER_NAME = "username";
+    final String KEY_PASSWORD = "password";
 
     public void readAccount() {
         try {
@@ -93,8 +131,23 @@ public class LoginUser extends AppCompatActivity {
 
             for (int i = 0; i <= listAccountLogin.size() - 1; i++) {
                 if (listAccountLogin.get(i).getUserName().equals(edtUserlogin.getText().toString()) && listAccountLogin.get(i).getPassWord().equals(edtPassLogin.getText().toString())) {
+
+                    String userName  = edtUserlogin.getText().toString();
+                    String password = edtPassLogin.getText().toString();
+
+                    if (chkRemember.isChecked()) {
+
+                        SharedPreferences.Editor editor = pref.edit();
+
+                        editor.putString(KEY_USER_NAME, userName);
+                        editor.putString(KEY_PASSWORD, password);
+
+                        editor.apply();
+                    }
+
                     Intent intent = new Intent(LoginUser.this, SelectActivity.class);
                     startActivity(intent);
+
                 } else {
                     Toast.makeText(this, "tài khoản hoặc mật khẩu không chính xác !!!", Toast.LENGTH_SHORT).show();
                 }

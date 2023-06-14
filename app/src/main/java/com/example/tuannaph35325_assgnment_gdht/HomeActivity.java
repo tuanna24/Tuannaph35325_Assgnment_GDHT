@@ -27,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
                     if (count>3) {
                         Intent intent = new Intent(HomeActivity.this, LoginUser.class);
                         startActivity(intent);
+                        finish();
                         break;
                     }
                     try {
